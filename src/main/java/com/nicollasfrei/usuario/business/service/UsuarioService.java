@@ -4,6 +4,7 @@ import com.nicollasfrei.usuario.business.converter.UsuarioConverter;
 import com.nicollasfrei.usuario.business.dto.UsuarioDTO;
 import com.nicollasfrei.usuario.infrastructure.entity.Usuario;
 import com.nicollasfrei.usuario.infrastructure.exceptions.ConflictException;
+import com.nicollasfrei.usuario.infrastructure.exceptions.ResourceNotFoundException;
 import com.nicollasfrei.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,4 +42,11 @@ public class UsuarioService {
     public boolean verificaEmailExistente(String email) {
         return usuarioRepository.existsByEmail(email);
     }
+
+    public Usuario buscarUsuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email não encontrado" + email));
+    }
+
+    public  void deletarUsuarioPorEmail(String email){usuarioRepository.deleteByEmail(email);}
 }
