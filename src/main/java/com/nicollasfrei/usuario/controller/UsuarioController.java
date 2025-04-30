@@ -1,6 +1,8 @@
 package com.nicollasfrei.usuario.controller;
 
 
+import com.nicollasfrei.usuario.business.dto.EnderecoDTO;
+import com.nicollasfrei.usuario.business.dto.TelefoneDTO;
 import com.nicollasfrei.usuario.business.dto.UsuarioDTO;
 import com.nicollasfrei.usuario.business.service.UsuarioService;
 import com.nicollasfrei.usuario.infrastructure.entity.Usuario;
@@ -37,7 +39,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email) {
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
 
@@ -53,5 +55,20 @@ public class UsuarioController {
 
         return  ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, dto));
     }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO dto,
+                                                            @RequestHeader("id") Long id) {
+
+        return  ResponseEntity.ok(usuarioService.atualizaEndereco(id, dto));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaEndereco(@RequestBody TelefoneDTO dto,
+                                                        @RequestHeader("id") Long id) {
+
+        return  ResponseEntity.ok(usuarioService.atualizaTelefone(id, dto));
+    }
+
 
 }
